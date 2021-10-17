@@ -51,4 +51,36 @@ class CustomTopo(Topo):
             # 10 Mbps, 5ms delay, 1% loss, 1000 packet queue
             #self.addLink( host, switch, bw=10, delay='5ms', loss=1, max_queue_size=1000, use_htb=True)
 
+def dcFabric():
+    " Create network and run simple performance test"
+    print "a. Setting link parameters"
+    "--- core to aggregation switches"
+    linkopts1 = {'bw':50, 'delay':'5ms'}
+    "--- aggregation to edge switches"
+    linkopts2 = {'bw':30, 'delay':'10ms'}
+    "--- edge switches to hosts"
+    linkopts3 = {'bw':10, 'delay':'15ms'}
+
+    topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=3)
+    #net = Mininet(topo=topo,
+    #              host=CPULimitedHost, link=TCLink)
+    net = Mininet(topo=topo, link=TCLink)
+    net.start()
+    print "Dumping host connections"
+    dumpNodeConnections(net.hosts)
+    print "Testing network connectivity"
+    net.pingAll()
+    print "Testing bandwidth between h1 and h4"
+    #h1, h4 = net.get('h1', 'h4')
+    #net.iperf((h1, h4))
+    net.stop()
+
+
+topos = { 'custom': ( lambda: CustomTopo() ) }
+
+
+if _name_ == '_main_':
+   setLogLevel('info')
+   dcFabric()
+
 
