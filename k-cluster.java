@@ -21,4 +21,26 @@ class Solution {
                     next=next.next;
                 }
             }
+            if (last!=null){
+                last.next=prev;
+            } else {
+                head=prev;
+            }
+            newEnd.next=current;
+            prev=newEnd;
+            count--;
+        }
+        return head;
+    }
+    
+      public int getLength(ListNode node){
+        int length=0;
+        while (node!=null){
+            length++;
+            node=node.next;
+        }
+        return length;
+    }
+
+}
            
