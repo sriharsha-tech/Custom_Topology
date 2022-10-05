@@ -1,14 +1,8 @@
 from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.log import setLogLevel
-from mininet.util import irange,dumpNodeConnections
-from mininet.link import TCLink
 
-class CustomTopo(Topo):
-    "Simple Data Center Topology"
 
-    "linkopts - (1:core, 2:aggregation, 3: edge) parameters"
-    "fanout - number of child switch per parent switch"
+
     def __init__(self, linkopts1, linkopts2, linkopts3, fanout=2, **opts):
         # Initialize topology and default options
         Topo.__init__(self, **opts)
@@ -64,12 +58,7 @@ def dcFabric():
     topo = CustomTopo(linkopts1, linkopts2, linkopts3, fanout=3)
     #net = Mininet(topo=topo,
     #              host=CPULimitedHost, link=TCLink)
-    net = Mininet(topo=topo, link=TCLink)
-    net.start()
-    print "Dumping host connections"
-    dumpNodeConnections(net.hosts)
-    print "Testing network connectivity"
-    net.pingAll()
+ 
     print "Testing bandwidth between h1 and h4"
     #h1, h4 = net.get('h1', 'h4')
     #net.iperf((h1, h4))
